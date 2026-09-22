@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jet ski run</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Jet ski run">
+<meta name="theme-color" content="#EEF6F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#061C27" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230C2B3A'/%3E%3Crect x='11' y='4' width='10' height='24' rx='5' fill='%2316404F'/%3E%3Cpath d='M11 16h10v7a5 5 0 0 1-10 0z' fill='%232AA3BB'/%3E%3Crect x='8' y='11' width='16' height='2' rx='1' fill='%23F2B705'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACXklEQVR42u3dIU7EQBSA4XZSRSpZg+AC1Zi9DhaJwBEcgptxCwRmPZoLLCzJsu2b975fbwjtfH0zkFDGedkP0rGaWyA4BIfgEByCQ3AIDsEhOASHBIfgEByCQ3AIDsEhOASH4JDgEByCQ3Bozabi13+12/3+ga/DAQ4mTnyyoJKJCUqq4ziHxdEvVYFIIyPO14Qjg4wiPiYsbDHlJseaj3XWEdLI4KMQjq3WKZ8Pvz5XGRzbPr7Jhkcjg4/8OOKsShofzhzKjiPaw5pjeJgcgkM1ccSc4Ql2FpNDcKggjsjTu/edxeQQHIJDcAgOwSE4BIfgEByCQ4JDcAgOwSE4BIfgEByCQ3BIcOh0HbxN8PPtPevdv3m8MznI6PLqmnvnGp05BIeK4Ah+Xkt/jc29c3U/Nc7Lvuv7G/wv2bt+Z74zh+AQHIJDcAgOwSE4BIfgEBwSHIJDcOiSdf+/7K/vHyJ/ex+vzyaHbCuCQ4JDcAgOwSE4BIfgEByCQ3AIDgkOwSE4BIfgEByCQ3AIDsEhwSE4BIfgEByCQ3AIDsEhOCQ4BIfgEByCQ3AIDsGxfpFfEdz164tNDsGhsjhiTu/e9xSTQ3CoMo5oMzzBnmJyqAaOOA9rjrGRbXJEWJU0MhJuK9uuTSYZzhwqhmOrxzfZ2Eg7OdZfp3wyMm8ra65WShnDMIzzss+9cd4+vWBhcqy9frllVPlp5RKrmF5GiW3l37eYCiwq4jhHSR0T1XH8XUlBE3DIgVRwCA7BITgEh+AQHIJDgkNwCA7BITgEh+AQHIJDcAgOCQ7BITgEh7bpG0KeY6FJH8wpAAAAAElFTkSuQmCC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --foam: #EEF6F5;
+  --panel: #FFFFFF;
+  --ink: #0C2B3A;
+  --muted: #557180;
+  --line: #CFE0E2;
+  --tube: #DCEAEC;
+  --water: #2AA3BB;
+  --chart-line: #0D6A85;
+  --buoy: #F2B705;
+  --good: #18794E;
+  --late: #B4461A;
+  --btn-bg: #0D6A85;
+  --btn-ink: #FFFFFF;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --foam: #061C27;
+    --panel: #0B2835;
+    --ink: #E2F0F3;
+    --muted: #8FAAB5;
+    --line: #1D4352;
+    --tube: #0E3242;
+    --water: #35B7CE;
+    --chart-line: #5CCBDD;
+    --buoy: #F6C945;
+    --good: #52C98E;
+    --late: #F2915E;
+    --btn-bg: #35B7CE;
+    --btn-ink: #04161F;
+  }
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0;
+  background: var(--foam);
+  color: var(--ink);
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 20px 20px 48px; }
+
+/* Header */
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+h1 { margin: 0; font-size: 1.3125rem; font-weight: 750; font-stretch: 125%; letter-spacing: -0.01em; }
+.countdown { margin: 0; color: var(--muted); font-size: 0.9375rem; }
+.countdown strong { color: var(--ink); font-weight: 800; font-stretch: 125%; font-style: italic; font-size: 1.125rem; }
+
+/* Hero: readout + tide gauge */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; margin: 24px 0 28px; }
+.readout { min-width: 0; }
+.stack { margin: 0; line-height: 0.95; white-space: nowrap; }
+.stack-num {
+  font-size: clamp(2.25rem, 10.5vw, 4.5rem);
+  font-weight: 800; font-stretch: 125%; font-style: italic;
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.stack-unit { margin-left: 6px; font-size: 1rem; font-weight: 700; font-stretch: 125%; color: var(--muted); }
+.worth { margin: 10px 0 0; color: var(--muted); font-size: 0.9375rem; }
+.next { margin: 20px 0 0; font-size: 1.3125rem; font-weight: 650; line-height: 1.25; }
+.rate { margin: 6px 0 0; }
+.done-line { margin: 8px 0 0; color: var(--good); font-weight: 600; }
+
+.gauge { position: relative; width: 116px; height: 250px; }
+.tube {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 38px;
+  border-radius: 19px; background: var(--tube); border: 2px solid var(--line); overflow: hidden;
+}
+.water {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 0;
+  background: var(--water); transition: height 1200ms cubic-bezier(.2, .85, .25, 1);
+}
+.surface { position: absolute; left: 0; top: -6px; width: 100%; height: 7px; display: block; }
+.surface path { fill: var(--water); }
+.water.empty .surface { display: none; }
+.marks { position: absolute; left: 0; right: 0; top: 2px; bottom: 2px; pointer-events: none; }
+.mark { position: absolute; left: -5px; height: 0; }
+.mark::before {
+  content: ""; position: absolute; left: 0; top: -1.5px; width: 48px; height: 3px;
+  border-radius: 2px; background: var(--buoy);
+}
+.mark-text { position: absolute; left: 53px; top: 0; transform: translateY(-50%); width: 68px; font-size: 0.75rem; line-height: 1.2; }
+.mark-name { display: block; font-weight: 650; }
+.mark-val { display: block; color: var(--muted); font-variant-numeric: tabular-nums; }
+.mark.hit .mark-name { color: var(--good); }
+
+/* Log panel */
+.log {
+  display: grid; gap: 12px; padding: 16px;
+  background: var(--panel); border: 2px solid var(--ink); border-radius: 18px;
+}
+.field { display: grid; gap: 4px; }
+.field > span { font-size: 0.8125rem; color: var(--muted); font-weight: 500; }
+input {
+  width: 100%; min-width: 0; min-height: 44px;
+  font: inherit; font-size: 1rem; color: var(--ink);
+  background: var(--foam); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 12px;
+}
+input:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
+.field.big input {
+  font-size: 1.75rem; font-weight: 800; font-stretch: 125%; font-style: italic;
+  font-variant-numeric: tabular-nums; padding: 6px 12px;
+}
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hint { margin: 6px 0 0; font-size: 0.8125rem; color: var(--muted); }
+button { font: inherit; cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--buoy); outline-offset: 2px; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.primary {
+  font-weight: 700; font-stretch: 112%; font-size: 1.0625rem;
+  background: var(--btn-bg); color: var(--btn-ink); border: 0; border-radius: 12px; padding: 14px 16px;
+}
+.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.linkish {
+  justify-self: start; padding: 0; border: 0; background: none;
+  color: var(--ink); font-size: 0.875rem; text-decoration: underline; text-underline-offset: 3px;
+}
+.status { margin: 0; min-height: 1.4em; font-size: 0.875rem; color: var(--muted); }
+
+/* Sections */
+section { margin-top: 40px; }
+h2 { margin: 0 0 12px; font-size: 1.125rem; font-weight: 700; font-stretch: 125%; }
+.empty { margin: 0; color: var(--muted); }
+
+/* Goals */
+.goal { padding: 18px 0; border-top: 1px solid var(--line); }
+.goal:first-child { padding-top: 4px; border-top: 0; }
+.goal-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.goal h3 { margin: 0; font-size: 1.0625rem; font-weight: 700; }
+.pct { margin: 0; font-size: 1.125rem; font-weight: 800; font-stretch: 125%; font-style: italic; font-variant-numeric: tabular-nums; }
+.bar { height: 12px; margin: 8px 0 10px; border-radius: 6px; background: var(--tube); overflow: hidden; }
+.fill { height: 100%; border-radius: 6px; background: var(--water); }
+.goal.done .fill { background: var(--buoy); }
+.target { margin: 0 0 12px; color: var(--muted); font-size: 0.9375rem; }
+.nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.nums dt { font-size: 0.8125rem; color: var(--muted); }
+.nums dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pace { margin: 12px 0 0; font-size: 0.9375rem; }
+.pace.good { color: var(--good); }
+.pace.late { color: var(--late); }
+
+/* Chart */
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; font-family: inherit; }
+.c-base { stroke: var(--line); stroke-width: 1.5; }
+.c-target { stroke: var(--buoy); stroke-width: 2; stroke-dasharray: 7 6; }
+.c-area { fill: var(--water); opacity: 0.22; }
+.c-line { fill: none; stroke: var(--chart-line); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.c-need { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 1 6; stroke-linecap: round; }
+.c-dot { fill: var(--chart-line); stroke: var(--foam); stroke-width: 2; }
+.c-label { fill: var(--ink); font-size: 12px; font-weight: 600; }
+.c-axis { fill: var(--muted); font-size: 11px; }
+.caption { margin: 8px 0 0; font-size: 0.8125rem; color: var(--muted); }
+
+/* History */
+.hist { list-style: none; margin: 0; padding: 0; }
+.hrow {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto 4.75rem auto;
+  align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line);
+}
+.hrow:first-child { border-top: 0; }
+.h-d { display: block; font-weight: 600; }
+.h-v { display: block; font-size: 0.8125rem; color: var(--muted); }
+.h-sol { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.h-chg { font-size: 0.875rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.h-chg.up { color: var(--good); }
+.h-chg.down { color: var(--late); }
+.h-del {
+  min-width: 2.75rem; height: 34px; padding: 0 8px;
+  background: none; color: var(--muted); border: 1.5px solid var(--line); border-radius: 8px;
+}
+.h-del.armed { color: var(--late); border-color: var(--late); font-size: 0.8125rem; }
+
+/* Settings */
+.settings { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
+.settings summary { cursor: pointer; font-size: 1.0625rem; font-weight: 700; font-stretch: 125%; }
+.g-edit { display: grid; gap: 10px; margin: 14px 0 0; padding: 12px; border: 1.5px solid var(--line); border-radius: 12px; }
+.g-edit legend { padding: 0 6px; font-size: 0.875rem; font-weight: 600; color: var(--muted); }
+.settings-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.secondary {
+  padding: 11px 16px; border-radius: 10px; font-weight: 650;
+  background: none; color: var(--ink); border: 1.5px solid var(--ink);
+}
+.danger { margin-top: 24px; color: var(--late); border-color: var(--late); }
+footer { margin-top: 32px; font-size: 0.8125rem; color: var(--muted); }
+footer p { margin: 0; }
+
+.price-note { margin: -4px 0 0; font-size: 0.8125rem; color: var(--muted); }
+.price-note .linkish { font-size: inherit; margin-left: 4px; }
+.backup { margin-top: 28px; display: grid; gap: 10px; }
+.backup h3 { margin: 0; font-size: 1rem; font-weight: 700; }
+.backup .hint { margin: 0; }
+textarea {
+  width: 100%; min-width: 0; font: inherit; font-size: 0.875rem; color: var(--ink);
+  background: var(--foam); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 12px; resize: vertical;
+}
+textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
+
+@media (min-width: 600px) {
+  .wrap { padding-top: 32px; }
+  .log .price-note { grid-column: 1 / -1; }
+  .gauge { width: 156px; height: 320px; }
+  .tube { width: 50px; border-radius: 25px; }
+  .mark::before { width: 60px; }
+  .mark-text { left: 66px; width: 92px; font-size: 0.8125rem; }
+  .log { grid-template-columns: 1fr 1fr; align-items: end; }
+  .log .field.big, .log .bank, .log .linkish, .log .status { grid-column: 1 / -1; }
+  .log .row { grid-column: 1 / -1; }
+  .log .primary { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .water { transition: none; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <h1>Jet ski run</h1>
+    <p class="countdown"><strong id="daysNum"></strong><span id="daysTo"></span></p>
+  </header>
+
+  <section class="hero" aria-label="Your stack">
+    <div class="readout">
+      <p class="stack"><span class="stack-num" id="stackNum">0.00</span><span class="stack-unit">SOL</span></p>
+      <p class="worth" id="worth"></p>
+      <p class="next" id="nextLine"></p>
+      <p class="rate" id="rateLine"></p>
+      <p class="done-line" id="doneLine" hidden></p>
+    </div>
+    <div class="gauge" aria-hidden="true">
+      <div class="tube">
+        <div class="water empty" id="water">
+          <svg class="surface" viewBox="0 0 40 8" preserveAspectRatio="none"><path d="M0 8 V4 C5 1 10 1 15 4 S25 7 30 4 S38 1 40 3 V8 Z"/></svg>
+        </div>
+      </div>
+      <div class="marks" id="marks"></div>
+    </div>
+  </section>
+
+  <div class="log" role="group" aria-label="Log your stack">
+    <label class="field big"><span>SOL you’re holding now</span><input id="inSol" inputmode="decimal" autocomplete="off" placeholder="0.00" enterkeyhint="done"></label>
+    <div class="row">
+      <label class="field"><span>SOL price in A$</span><input id="inPrice" inputmode="decimal" autocomplete="off" enterkeyhint="done"></label>
+      <label class="field"><span>Date</span><input id="inDate" type="date"></label>
+    </div>
+    <p class="price-note" id="priceNote" aria-live="polite"><span id="priceNoteText">Getting the live price…</span> <button type="button" class="linkish" id="priceAction" hidden></button></p>
+    <div class="bank" id="bankWrap" hidden>
+      <label class="field"><span>Cashed out to your bank, in A$</span><input id="inBank" inputmode="decimal" autocomplete="off" placeholder="0" enterkeyhint="done"></label>
+      <p class="hint">Counts toward your goals, so moving SOL into AUD doesn’t show up as a drop.</p>
+    </div>
+    <button type="button" class="linkish" id="bankToggle">Add AUD you’ve cashed out</button>
+    <button type="button" class="primary" id="logBtn">Log today</button>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </div>
+
+  <section aria-labelledby="goalsH">
+    <h2 id="goalsH">Goals</h2>
+    <div id="goalList"></div>
+  </section>
+
+  <section aria-labelledby="chartH">
+    <h2 id="chartH">Stack over time</h2>
+    <div class="chart" id="chart"></div>
+    <p class="caption" id="chartCaption" hidden></p>
+  </section>
+
+  <section aria-labelledby="histH">
+    <h2 id="histH">History</h2>
+    <p class="empty" id="histEmpty">Nothing logged yet. Punch in today’s SOL above to start.</p>
+    <ol class="hist" id="histList"></ol>
+  </section>
+
+  <details class="settings">
+    <summary>Goals and backup</summary>
+    <div id="goalEditor"></div>
+    <div class="settings-actions">
+      <button type="button" class="secondary" id="saveGoals">Save goals</button>
+      <p class="status" id="goalStatus" role="status" aria-live="polite"></p>
+    </div>
+    <div class="backup">
+      <h3>Backup</h3>
+      <p class="hint">Your log is saved in this browser. Copy a backup now and then, or use one to move your log to another device.</p>
+      <div><button type="button" class="secondary" id="copyBackup">Copy backup</button></div>
+      <label class="field"><span>Paste a backup to restore it</span><textarea id="restoreText" rows="3" spellcheck="false" autocomplete="off"></textarea></label>
+      <div class="settings-actions">
+        <button type="button" class="secondary" id="restoreBtn">Restore backup</button>
+        <p class="status" id="backupStatus" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+    <button type="button" class="secondary danger" id="clearAll">Clear all data</button>
+  </details>
+
+  <footer><p>Saved in this browser only. Anyone else who opens this link sees their own empty tracker.</p></footer>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  // ---------- Defaults
+  const FALLBACK_PRICE = 163.35; // A$ per SOL on 23 Sep 2026, only used if nothing else is available
+  const LS_KEY = 'jetski-run:v1';
+  const LIVE_KEY = 'jetski-run:live-price';
+  const DEFAULT_GOALS = [
+    { id: 'ski', name: 'Jet ski', aud: 20000, date: '2026-11-07' },
+    { id: 'liquid', name: '$50K liquid', aud: 50000, date: '2026-11-07' }
+  ];
+  const ISO_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+  // Live SOL/AUD price sources, tried in order
+  const PRICE_SOURCES = [
+    { name: 'Coinbase', url: 'https://api.coinbase.com/v2/prices/SOL-AUD/spot', pick: (j) => j && j.data && j.data.amount },
+    { name: 'Coinbase', url: 'https://api.coinbase.com/v2/exchange-rates?currency=SOL', pick: (j) => j && j.data && j.data.rates && j.data.rates.AUD },
+    { name: 'CoinGecko', url: 'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=aud', pick: (j) => j && j.solana && j.solana.aud }
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const el = {
+    daysNum: $('daysNum'), daysTo: $('daysTo'),
+    stackNum: $('stackNum'), worth: $('worth'), next: $('nextLine'), rate: $('rateLine'), doneLine: $('doneLine'),
+    water: $('water'), marks: $('marks'),
+    inSol: $('inSol'), inPrice: $('inPrice'), inDate: $('inDate'), inBank: $('inBank'),
+    priceNoteText: $('priceNoteText'), priceAction: $('priceAction'),
+    bankWrap: $('bankWrap'), bankToggle: $('bankToggle'), logBtn: $('logBtn'), status: $('status'),
+    goalList: $('goalList'), chart: $('chart'), caption: $('chartCaption'),
+    histList: $('histList'), histEmpty: $('histEmpty'),
+    goalEditor: $('goalEditor'), saveGoals: $('saveGoals'), goalStatus: $('goalStatus'), clearAll: $('clearAll'),
+    copyBackup: $('copyBackup'), restoreText: $('restoreText'), restoreBtn: $('restoreBtn'), backupStatus: $('backupStatus')
+  };
+
+  // ---------- Helpers
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const blank = () => ({ v: 1, goals: clone(DEFAULT_GOALS), entries: [] });
+  const pad = (n) => String(n).padStart(2, '0');
+  const isoOf = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  const todayISO = () => isoOf(new Date());
+  const parseISO = (s) => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
+  const daysBetween = (a, b) => Math.round((parseISO(b) - parseISO(a)) / 86400000);
+  const addDays = (iso, n) => { const d = parseISO(iso); d.setDate(d.getDate() + n); return isoOf(d); };
+  const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const MO = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const fmtDate = (iso) => { const d = parseISO(iso); return WD[d.getDay()] + ' ' + d.getDate() + ' ' + MO[d.getMonth()]; };
+  const fmtShort = (iso) => { const d = parseISO(iso); return d.getDate() + ' ' + MO[d.getMonth()]; };
+  const fmtTime = (ms) => { const d = new Date(ms); const h = d.getHours(); return (h % 12 || 12) + ':' + pad(d.getMinutes()) + (h < 12 ? ' am' : ' pm'); };
+  const nf2 = new Intl.NumberFormat('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const aud0 = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const aud2 = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fSol = (n) => nf2.format(n);
+  const num = (v) => { const s = String(v == null ? '' : v).replace(/[\s,$]/g, ''); return s === '' ? NaN : Number(s); };
+  const priceStr = (p) => String(Math.round(p * 100) / 100);
+  const stackOf = (e) => e.sol + e.bank / e.price;
+  const plural = (n, one, many) => n + (n === 1 ? one : many);
+
+  // "Jet ski" -> "the jet ski", "Sea-Doo" -> "the Sea-Doo", "$50K liquid" -> "$50K liquid"
+  function phraseFor(name) {
+    const n = String(name).trim();
+    if (!/^[A-Za-z]/.test(n)) return n;
+    const first = n.split(/\s+/)[0];
+    const rest = first.slice(1);
+    const lower = rest.length && rest === rest.toLowerCase() ? n.charAt(0).toLowerCase() + n.slice(1) : n;
+    return 'the ' + lower;
+  }
+
+  function normalize(raw) {
+    const out = blank();
+    if (!raw || typeof raw !== 'object') return out;
+    if (Array.isArray(raw.goals) && raw.goals.length) {
+      out.goals = DEFAULT_GOALS.map((d, i) => {
+        const g = raw.goals[i] || {};
+        const aud = Number(g.aud);
+        return {
+          id: String(g.id || d.id),
+          name: String(g.name || d.name).slice(0, 40),
+          aud: aud > 0 ? aud : d.aud,
+          date: ISO_RE.test(g.date) ? g.date : d.date
+        };
+      });
+    }
+    if (Array.isArray(raw.entries)) {
+      const byDate = {};
+      raw.entries.forEach((e) => {
+        if (!e || !ISO_RE.test(e.d)) return;
+        const s = Number(e.sol), p = Number(e.price), b = Number(e.bank);
+        if (!(s >= 0) || !(p > 0)) return;
+        byDate[e.d] = { d: e.d, sol: s, price: p, bank: b > 0 ? b : 0 };
+      });
+      out.entries = Object.keys(byDate).sort().map((k) => byDate[k]);
+    }
+    return out;
+  }
+
+  // ---------- State + storage
+  let state = blank();
+  let live = null;            // { price, at, source } — latest live price we know about
+  let liveStatus = 'loading'; // 'loading' | 'ok' | 'failed'
+  let lastFetch = 0;
+  let fetching = false;
+  let priceTouched = false;   // you typed your own price
+  let gaugeReady = false;
+  let editorDirty = false;
+  let inputsDay = '';         // the day the log form was last filled for
+
+  function readJSON(key) {
+    try { const s = localStorage.getItem(key); return s ? JSON.parse(s) : null; } catch (e) { return null; }
+  }
+  function writeJSON(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch (e) { return false; }
+  }
+  function saveLocal() {
+    if (!writeJSON(LS_KEY, state)) say('Couldn’t save in this browser. Private browsing can block saving.');
+  }
+
+  function reduce(s, op) {
+    if (op.t === 'clear') return blank();
+    if (op.t === 'replace') return normalize(op.state);
+    const n = clone(s);
+    if (op.t === 'log') n.entries = n.entries.filter((e) => e.d !== op.e.d).concat([op.e]);
+    if (op.t === 'del') n.entries = n.entries.filter((e) => e.d !== op.d);
+    if (op.t === 'goals') n.goals = op.goals;
+    return normalize(n);
+  }
+  function commit(op) {
+    state = reduce(state, op);
+    saveLocal();
+  }
+
+  // ---------- Live price
+  async function fetchJSON(url) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 7000);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function refreshLivePrice() {
+    if (fetching) return;
+    fetching = true;
+    lastFetch = Date.now();
+    if (!live) { liveStatus = 'loading'; updatePriceNote(); }
+    let got = null;
+    for (const src of PRICE_SOURCES) {
+      try {
+        const v = Number(src.pick(await fetchJSON(src.url)));
+        if (v > 0) { got = { price: v, at: Date.now(), source: src.name }; break; }
+      } catch (e) { /* try the next source */ }
+    }
+    fetching = false;
+    if (got) {
+      live = got;
+      liveStatus = 'ok';
+      writeJSON(LIVE_KEY, live);
+      if (!priceTouched) {
+        el.inPrice.value = priceStr(live.price);
+        renderLive();
+      }
+    } else {
+      liveStatus = 'failed';
+    }
+    updatePriceNote();
+  }
+
+  function updatePriceNote() {
+    const p = num(el.inPrice.value);
+    const matchesLive = !!live && Math.abs(p - live.price) < 0.005;
+    let text = '';
+    let action = '';
+    if (liveStatus === 'ok' && !matchesLive) {
+      text = 'Using the price you entered.';
+      action = 'Use live price (' + aud2.format(live.price) + ')';
+    } else if (liveStatus === 'ok') {
+      text = 'Live price from ' + live.source + ', ' + fmtTime(live.at) + '.';
+      action = 'Refresh';
+    } else if (liveStatus === 'loading') {
+      text = 'Getting the live price…';
+    } else if (live && matchesLive) {
+      const liveDay = isoOf(new Date(live.at));
+      text = 'Couldn’t reach the live price. This is the last one, from ' +
+        (liveDay === todayISO() ? '' : fmtDate(liveDay) + ', ') + fmtTime(live.at) + '.';
+      action = 'Try again';
+    } else {
+      text = 'Couldn’t reach the live price. Type today’s price in if it’s moved.';
+      action = 'Try again';
+    }
+    el.priceNoteText.textContent = text;
+    el.priceAction.textContent = action;
+    el.priceAction.hidden = !action;
+  }
+
+  el.priceAction.addEventListener('click', () => {
+    if (liveStatus === 'ok' && live && Math.abs(num(el.inPrice.value) - live.price) >= 0.005) {
+      el.inPrice.value = priceStr(live.price);
+      priceTouched = false;
+      renderLive();
+      updatePriceNote();
+    }
+    refreshLivePrice();
+  });
+
+  // ---------- Maths
+  function inputsSnapshot() {
+    const L = state.entries[state.entries.length - 1] || null;
+    const s = num(el.inSol.value), p = num(el.inPrice.value), b = num(el.inBank.value);
+    const price = p > 0 ? p : (live ? live.price : (L ? L.price : FALLBACK_PRICE));
+    const sol = s >= 0 ? s : (L ? L.sol : 0);
+    const bank = b >= 0 ? b : (L ? L.bank : 0);
+    return { sol, price, bank, stack: sol + bank / price, value: sol * price + bank };
+  }
+
+  function goalStats(g, snap, today) {
+    const targetSol = g.aud / snap.price;
+    const done = snap.value >= g.aud;
+    const toGo = done ? 0 : Math.max(0, targetSol - snap.stack);
+    const pct = Math.max(0, Math.min(100, (snap.value / g.aud) * 100));
+    const daysLeft = daysBetween(today, g.date);
+    const perDay = !done && daysLeft > 0 ? toGo / daysLeft : null;
+    return { targetSol, done, toGo, pct, daysLeft, perDay, spare: Math.max(0, snap.stack - targetSol) };
+  }
+
+  // Average SOL stacked per day across the last week of logs
+  function pace() {
+    const E = state.entries;
+    if (E.length < 2) return null;
+    const last = E[E.length - 1];
+    const cutoff = addDays(last.d, -7);
+    let first = E.find((e) => e.d >= cutoff);
+    if (first === last) first = E[E.length - 2];
+    const days = daysBetween(first.d, last.d);
+    if (days <= 0) return null;
+    return { perDay: (stackOf(last) - stackOf(first)) / days, days };
+  }
+
+  // ---------- Rendering
+  function renderHero(snap, today, stats) {
+    el.stackNum.textContent = fSol(snap.stack);
+    el.worth.textContent = 'Worth ' + aud0.format(snap.value) + ' at ' + aud2.format(snap.price) + ' a SOL';
+
+    const next = stats.find((x) => !x.s.done);
+    if (!next) {
+      el.next.textContent = 'Every goal is covered.';
+      el.rate.textContent = 'Set a bigger one in Goals and backup below.';
+    } else {
+      el.next.textContent = fSol(next.s.toGo) + ' SOL to go for ' + phraseFor(next.g.name);
+      if (next.s.daysLeft > 0) {
+        el.rate.textContent = 'Stack ' + fSol(next.s.perDay) + ' SOL a day to have it by ' + fmtDate(next.g.date) + '.';
+      } else if (next.s.daysLeft === 0) {
+        el.rate.textContent = 'Target date is today.';
+      } else {
+        el.rate.textContent = 'Target date has passed. Pick a new one in Goals and backup.';
+      }
+    }
+    const covered = stats.filter((x) => x.s.done).map((x) => x.g.name);
+    el.doneLine.textContent = covered.length ? covered.join(' and ') + ' covered.' : '';
+    el.doneLine.hidden = covered.length === 0;
+
+    const g0 = state.goals[0];
+    const d0 = daysBetween(today, g0.date);
+    if (d0 > 0) {
+      el.daysNum.textContent = String(d0);
+      el.daysTo.textContent = (d0 === 1 ? ' day' : ' days') + ' to ' + fmtDate(g0.date);
+    } else {
+      el.daysNum.textContent = '';
+      el.daysTo.textContent = d0 === 0 ? 'Target day is today' : 'Target date passed';
+    }
+  }
+
+  function renderGauge(snap, stats) {
+    const targets = stats.map((x) => x.s.targetSol);
+    const top = Math.max.apply(null, targets.concat([snap.stack])) * 1.08 || 1;
+    if (gaugeReady) {
+      const h = Math.min(100, (snap.stack / top) * 100);
+      el.water.style.height = h + '%';
+      el.water.classList.toggle('empty', h <= 0);
+    }
+    el.marks.textContent = '';
+    stats.forEach((x, i) => {
+      const m = document.createElement('div');
+      m.className = 'mark' + (x.s.done ? ' hit' : '');
+      m.style.bottom = ((targets[i] / top) * 100) + '%';
+      const t = document.createElement('div'); t.className = 'mark-text';
+      const n = document.createElement('span'); n.className = 'mark-name'; n.textContent = x.g.name;
+      const v = document.createElement('span'); v.className = 'mark-val'; v.textContent = fSol(targets[i]);
+      t.append(n, v); m.append(t); el.marks.append(m);
+    });
+  }
+
+  function renderGoals(snap, today, stats) {
+    const p = pace();
+    el.goalList.textContent = '';
+    stats.forEach(({ g, s }) => {
+      const art = document.createElement('article');
+      art.className = 'goal' + (s.done ? ' done' : '');
+
+      const head = document.createElement('div'); head.className = 'goal-head';
+      const h3 = document.createElement('h3'); h3.textContent = g.name;
+      const pct = document.createElement('p'); pct.className = 'pct'; pct.textContent = Math.floor(s.pct) + '%';
+      head.append(h3, pct);
+
+      const bar = document.createElement('div'); bar.className = 'bar';
+      bar.setAttribute('role', 'progressbar');
+      bar.setAttribute('aria-label', g.name + ' progress');
+      bar.setAttribute('aria-valuemin', '0'); bar.setAttribute('aria-valuemax', '100');
+      bar.setAttribute('aria-valuenow', String(Math.floor(s.pct)));
+      const fill = document.createElement('div'); fill.className = 'fill'; fill.style.width = s.pct + '%';
+      bar.append(fill);
+
+      const tgt = document.createElement('p'); tgt.className = 'target';
+      tgt.textContent = aud0.format(g.aud) + ', which is ' + fSol(s.targetSol) + ' SOL at ' + aud2.format(snap.price);
+
+      const dl = document.createElement('dl'); dl.className = 'nums';
+      const daysTxt = String(Math.max(0, s.daysLeft));
+      const cells = s.done
+        ? [['Target', fSol(s.targetSol) + ' SOL'], ['Spare', fSol(s.spare) + ' SOL'], ['Days left', daysTxt]]
+        : [['To go', fSol(s.toGo) + ' SOL'], ['Per day', s.perDay != null ? fSol(s.perDay) + ' SOL' : '–'], ['Days left', daysTxt]];
+      cells.forEach(([k, v]) => {
+        const d = document.createElement('div');
+        const dt = document.createElement('dt'); dt.textContent = k;
+        const dd = document.createElement('dd'); dd.textContent = v;
+        d.append(dt, dd); dl.append(d);
+      });
+
+      const pc = document.createElement('p'); pc.className = 'pace';
+      if (s.done) {
+        pc.textContent = 'You can cover this now.';
+        pc.classList.add('good');
+      } else if (!p) {
+        pc.textContent = 'Log a few days and your pace shows up here.';
+      } else if (p.perDay <= 0) {
+        pc.textContent = 'Your stack is flat or down over the last ' + plural(p.days, ' day.', ' days.');
+        pc.classList.add('late');
+      } else {
+        const eta = addDays(today, Math.ceil(s.toGo / p.perDay));
+        const diff = daysBetween(eta, g.date);
+        let tail;
+        if (diff > 0) { tail = ', ' + plural(diff, ' day early.', ' days early.'); pc.classList.add('good'); }
+        else if (diff === 0) { tail = ', right on the day.'; pc.classList.add('good'); }
+        else { tail = ', ' + plural(-diff, ' day late.', ' days late.'); pc.classList.add('late'); }
+        pc.textContent = 'Last ' + plural(p.days, ' day', ' days') + ': +' + fSol(p.perDay) +
+          ' SOL a day. At that pace you’d have it by ' + fmtDate(eta) + tail;
+      }
+
+      art.append(head, bar, tgt, dl, pc);
+      el.goalList.append(art);
+    });
+  }
+
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  function svgEl(tag, attrs, text) {
+    const n = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs).forEach((k) => n.setAttribute(k, attrs[k]));
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function renderChart(snap, today, stats) {
+    const E = state.entries;
+    el.chart.textContent = '';
+    el.caption.hidden = true;
+    if (!E.length) {
+      const p = document.createElement('p'); p.className = 'empty';
+      p.textContent = 'Your first log starts the chart.';
+      el.chart.append(p);
+      return;
+    }
+    const W = Math.max(280, Math.round(el.chart.clientWidth || 640));
+    const H = W < 480 ? 210 : 250;
+    const L = 6, R = 6, T = 24, B = 26;
+    // Zoom the chart on the next goal you haven't covered yet
+    let fi = stats.findIndex((x) => !x.s.done);
+    if (fi < 0) fi = stats.length - 1;
+    const focus = stats[fi];
+    const fg = focus.g;
+    const start = E[0].d;
+    let end = [E[E.length - 1].d, today, fg.date].sort().pop();
+    let span = daysBetween(start, end);
+    if (span < 1) { end = addDays(start, 1); span = 1; }
+    const targets = stats.map((x) => x.s.targetSol);
+    const top = Math.max(focus.s.targetSol, Math.max.apply(null, E.map(stackOf)), snap.stack) * 1.12 || 1;
+    const x = (iso) => L + (daysBetween(start, iso) / span) * (W - L - R);
+    const y = (v) => T + (1 - v / top) * (H - T - B);
+
+    const s = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'Your stack over time, with a line for your next goal' });
+    s.append(svgEl('line', { x1: L, x2: W - R, y1: y(0), y2: y(0), class: 'c-base' }));
+
+    stats.forEach((st, i) => {
+      if (targets[i] > top) return;
+      const yy = y(targets[i]);
+      s.append(svgEl('line', { x1: L, x2: W - R, y1: yy, y2: yy, class: 'c-target' }));
+      s.append(svgEl('text', { x: W - R, y: yy - 7, 'text-anchor': 'end', class: 'c-label' }, st.g.name + '  ' + fSol(targets[i]) + ' SOL'));
+    });
+
+    const pts = E.map((e) => [x(e.d), y(stackOf(e))]);
+    if (pts.length > 1) {
+      let d = 'M' + pts[0][0] + ' ' + y(0);
+      pts.forEach((pt) => { d += ' L' + pt[0] + ' ' + pt[1]; });
+      d += ' L' + pts[pts.length - 1][0] + ' ' + y(0) + ' Z';
+      s.append(svgEl('path', { d, class: 'c-area' }));
+      s.append(svgEl('polyline', { points: pts.map((pt) => pt.join(',')).join(' '), class: 'c-line' }));
+    }
+
+    const last = E[E.length - 1];
+    if (!focus.s.done && fg.date > last.d) {
+      s.append(svgEl('line', { x1: x(last.d), y1: y(stackOf(last)), x2: x(fg.date), y2: y(focus.s.targetSol), class: 'c-need' }));
+      el.caption.textContent = 'Dotted line: the pace that gets ' + phraseFor(fg.name) + ' by ' + fmtDate(fg.date) + '.';
+      el.caption.hidden = false;
+    }
+
+    const lp = pts[pts.length - 1];
+    s.append(svgEl('circle', { cx: lp[0], cy: lp[1], r: 4.5, class: 'c-dot' }));
+    s.append(svgEl('text', { x: L, y: H - 6, class: 'c-axis' }, fmtShort(start)));
+    s.append(svgEl('text', { x: W - R, y: H - 6, 'text-anchor': 'end', class: 'c-axis' }, fmtShort(end)));
+    el.chart.append(s);
+  }
+
+  let armedDate = null;
+  let armTimer = null;
+  function renderHistory() {
+    const E = state.entries;
+    el.histList.textContent = '';
+    el.histEmpty.hidden = E.length > 0;
+    for (let k = E.length - 1; k >= 0; k--) {
+      const e = E[k];
+      const prev = E[k - 1];
+      const li = document.createElement('li'); li.className = 'hrow';
+
+      const left = document.createElement('div');
+      const dd = document.createElement('span'); dd.className = 'h-d'; dd.textContent = fmtDate(e.d);
+      const vv = document.createElement('span'); vv.className = 'h-v';
+      vv.textContent = aud0.format(e.sol * e.price + e.bank) + ' at ' + aud2.format(e.price);
+      left.append(dd, vv);
+
+      const solEl = document.createElement('span'); solEl.className = 'h-sol'; solEl.textContent = fSol(stackOf(e));
+
+      const chg = document.createElement('span'); chg.className = 'h-chg';
+      if (prev) {
+        const c = stackOf(e) - stackOf(prev);
+        chg.textContent = (c >= 0 ? '+' : '−') + fSol(Math.abs(c));
+        if (c > 0.004) chg.classList.add('up');
+        if (c < -0.004) chg.classList.add('down');
+      } else {
+        chg.textContent = 'start';
+      }
+
+      const del = document.createElement('button');
+      del.type = 'button'; del.className = 'h-del';
+      const armed = armedDate === e.d;
+      del.textContent = armed ? 'Delete?' : '×';
+      if (armed) del.classList.add('armed');
+      del.setAttribute('aria-label', armed ? 'Confirm delete ' + fmtDate(e.d) : 'Delete ' + fmtDate(e.d));
+      del.addEventListener('click', () => onDelete(e.d));
+
+      li.append(left, solEl, chg, del);
+      el.histList.append(li);
+    }
+  }
+
+  function onDelete(d) {
+    clearTimeout(armTimer);
+    if (armedDate === d) {
+      armedDate = null;
+      commit({ t: 'del', d });
+      say('Deleted ' + fmtDate(d) + '.');
+      renderLive(); renderHistory();
+      return;
+    }
+    armedDate = d;
+    renderHistory();
+    armTimer = setTimeout(() => { armedDate = null; renderHistory(); }, 3500);
+  }
+
+  function editorField(label, type, value, key, extra) {
+    const lab = document.createElement('label'); lab.className = 'field';
+    const sp = document.createElement('span'); sp.textContent = label;
+    const inp = document.createElement('input');
+    inp.type = type; inp.value = value; inp.dataset.k = key;
+    Object.keys(extra).forEach((k) => inp.setAttribute(k, extra[k]));
+    inp.addEventListener('input', () => { editorDirty = true; });
+    lab.append(sp, inp);
+    return lab;
+  }
+
+  function renderEditor() {
+    if (editorDirty) return;
+    el.goalEditor.textContent = '';
+    state.goals.forEach((g, i) => {
+      const fs = document.createElement('fieldset'); fs.className = 'g-edit'; fs.dataset.i = String(i);
+      const lg = document.createElement('legend'); lg.textContent = 'Goal ' + (i + 1);
+      fs.append(
+        lg,
+        editorField('Name', 'text', g.name, 'name', { maxlength: '40', autocomplete: 'off' }),
+        editorField('Amount in A$', 'text', String(g.aud), 'aud', { inputmode: 'decimal', autocomplete: 'off' }),
+        editorField('Target date', 'date', g.date, 'date', {})
+      );
+      el.goalEditor.append(fs);
+    });
+  }
+
+  function updateLogBtn() {
+    const t = todayISO();
+    const d = ISO_RE.test(el.inDate.value) ? el.inDate.value : t;
+    const exists = state.entries.some((e) => e.d === d);
+    el.logBtn.textContent = (exists ? 'Update ' : 'Log ') + (d === t ? 'today' : fmtShort(d));
+  }
+
+  function renderLive() {
+    const today = todayISO();
+    const snap = inputsSnapshot();
+    const stats = state.goals.map((g) => ({ g, s: goalStats(g, snap, today) }));
+    renderHero(snap, today, stats);
+    renderGauge(snap, stats);
+    renderGoals(snap, today, stats);
+    renderChart(snap, today, stats);
+    updateLogBtn();
+  }
+
+  function renderAll() {
+    renderLive();
+    renderHistory();
+    renderEditor();
+  }
+
+  function fillInputs() {
+    const L = state.entries[state.entries.length - 1] || null;
+    el.inSol.value = L ? String(L.sol) : '';
+    el.inPrice.value = priceStr(live ? live.price : (L ? L.price : FALLBACK_PRICE));
+    el.inBank.value = L && L.bank > 0 ? String(L.bank) : '';
+    const t = todayISO();
+    el.inDate.value = t;
+    el.inDate.max = t;
+    inputsDay = t;
+    const showBank = !!(L && L.bank > 0);
+    el.bankWrap.hidden = !showBank;
+    el.bankToggle.hidden = showBank;
+    priceTouched = false;
+  }
+
+  function say(msg) { el.status.textContent = msg; }
+  function showLastLogged() {
+    const L = state.entries[state.entries.length - 1];
+    if (L) say('Last logged ' + (L.d === todayISO() ? 'today' : fmtDate(L.d)) + '.');
+  }
+
+  // ---------- Actions
+  function doLog() {
+    const s = num(el.inSol.value), p = num(el.inPrice.value), b = num(el.inBank.value);
+    const t = todayISO();
+    let d = el.inDate.value;
+    if (!ISO_RE.test(d) || d > t) d = t;
+    if (!(s >= 0)) { say('Enter how much SOL you’re holding.'); el.inSol.focus(); return; }
+    if (!(p > 0)) { say('Enter the SOL price in A$.'); el.inPrice.focus(); return; }
+    const existed = state.entries.some((e) => e.d === d);
+    commit({ t: 'log', e: { d, sol: s, price: p, bank: b > 0 ? b : 0 } });
+    say((existed ? 'Updated ' : 'Logged ') + (d === t ? 'today' : fmtDate(d)) + '.');
+    renderLive();
+    renderHistory();
+    updatePriceNote();
+  }
+
+  ['inSol', 'inBank'].forEach((k) => {
+    el[k].addEventListener('input', () => renderLive());
+  });
+  el.inPrice.addEventListener('input', () => {
+    priceTouched = !(live && Math.abs(num(el.inPrice.value) - live.price) < 0.005);
+    renderLive();
+    updatePriceNote();
+  });
+  el.inDate.addEventListener('change', () => {
+    const e = state.entries.find((x) => x.d === el.inDate.value);
+    if (e) {
+      el.inSol.value = String(e.sol);
+      el.inPrice.value = priceStr(e.price);
+      el.inBank.value = e.bank > 0 ? String(e.bank) : '';
+      if (e.bank > 0) { el.bankWrap.hidden = false; el.bankToggle.hidden = true; }
+      priceTouched = !(live && Math.abs(e.price - live.price) < 0.005);
+    }
+    renderLive();
+    updatePriceNote();
+  });
+  [el.inSol, el.inPrice, el.inBank, el.inDate].forEach((inp) => {
+    inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); doLog(); } });
+  });
+  el.logBtn.addEventListener('click', doLog);
+  el.bankToggle.addEventListener('click', () => {
+    el.bankWrap.hidden = false;
+    el.bankToggle.hidden = true;
+    el.inBank.focus();
+  });
+
+  el.saveGoals.addEventListener('click', () => {
+    const goals = clone(state.goals);
+    let problem = '';
+    el.goalEditor.querySelectorAll('fieldset').forEach((fs) => {
+      if (problem) return;
+      const i = Number(fs.dataset.i);
+      const name = fs.querySelector('[data-k="name"]').value.trim();
+      const aud = num(fs.querySelector('[data-k="aud"]').value);
+      const date = fs.querySelector('[data-k="date"]').value;
+      if (!name) problem = 'Give goal ' + (i + 1) + ' a name.';
+      else if (!(aud > 0)) problem = 'Goal ' + (i + 1) + ' needs an amount above $0.';
+      else if (!ISO_RE.test(date)) problem = 'Goal ' + (i + 1) + ' needs a target date.';
+      else goals[i] = { id: goals[i].id, name, aud, date };
+    });
+    if (problem) { el.goalStatus.textContent = problem; return; }
+    commit({ t: 'goals', goals });
+    editorDirty = false;
+    renderAll();
+    el.goalStatus.textContent = 'Goals saved.';
+  });
+
+  // Backup: copy your log as text, paste it back to restore
+  el.copyBackup.addEventListener('click', async () => {
+    const text = JSON.stringify(state);
+    try {
+      await navigator.clipboard.writeText(text);
+      el.backupStatus.textContent = 'Backup copied. Paste it into your notes to keep it safe.';
+    } catch (e) {
+      el.restoreText.value = text;
+      el.restoreText.focus();
+      el.restoreText.select();
+      el.backupStatus.textContent = 'Copy the text in the box above and keep it somewhere safe.';
+    }
+  });
+
+  let restoreArmed = false;
+  let restoreTimer = null;
+  el.restoreBtn.addEventListener('click', () => {
+    let parsed = null;
+    try { parsed = JSON.parse(el.restoreText.value.trim()); } catch (e) { parsed = null; }
+    if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.entries)) {
+      el.backupStatus.textContent = 'That isn’t a backup from this tracker. Paste everything you copied.';
+      return;
+    }
+    clearTimeout(restoreTimer);
+    if (!restoreArmed) {
+      restoreArmed = true;
+      el.restoreBtn.textContent = 'Tap again to replace your current log';
+      restoreTimer = setTimeout(() => { restoreArmed = false; el.restoreBtn.textContent = 'Restore backup'; }, 4000);
+      return;
+    }
+    restoreArmed = false;
+    el.restoreBtn.textContent = 'Restore backup';
+    commit({ t: 'replace', state: parsed });
+    el.restoreText.value = '';
+    editorDirty = false;
+    fillInputs();
+    renderAll();
+    updatePriceNote();
+    showLastLogged();
+    el.backupStatus.textContent = 'Restored ' + plural(state.entries.length, ' day.', ' days.');
+  });
+
+  let clearArmed = false;
+  let clearTimer = null;
+  el.clearAll.addEventListener('click', () => {
+    clearTimeout(clearTimer);
+    if (!clearArmed) {
+      clearArmed = true;
+      el.clearAll.textContent = 'Tap again to clear everything';
+      clearTimer = setTimeout(() => { clearArmed = false; el.clearAll.textContent = 'Clear all data'; }, 4000);
+      return;
+    }
+    clearArmed = false;
+    el.clearAll.textContent = 'Clear all data';
+    commit({ t: 'clear' });
+    editorDirty = false;
+    fillInputs();
+    renderAll();
+    updatePriceNote();
+    say('');
+    el.goalStatus.textContent = 'Cleared.';
+  });
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(renderLive, 150);
+  });
+
+  // Fresh price whenever you come back to the page, and every 5 minutes while it's open
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    if (inputsDay !== todayISO()) {
+      // New day since the page was opened: reset the form to today
+      fillInputs();
+      renderAll();
+      showLastLogged();
+      updatePriceNote();
+    } else {
+      renderLive();
+    }
+    if (Date.now() - lastFetch > 60000) refreshLivePrice();
+  });
+  setInterval(() => {
+    if (document.visibilityState === 'visible') refreshLivePrice();
+  }, 5 * 60 * 1000);
+
+  // ---------- Start
+  const saved = readJSON(LS_KEY);
+  if (saved) state = normalize(saved);
+  const cachedLive = readJSON(LIVE_KEY);
+  if (cachedLive && Number(cachedLive.price) > 0 && Number(cachedLive.at) > 0) {
+    live = { price: Number(cachedLive.price), at: Number(cachedLive.at), source: String(cachedLive.source || 'the last check') };
+  }
+  fillInputs();
+  renderAll();
+  showLastLogged();
+  updatePriceNote();
+  requestAnimationFrame(() => requestAnimationFrame(() => { gaugeReady = true; renderLive(); }));
+  refreshLivePrice();
+})();
+</script>
+</body>
+</html>
