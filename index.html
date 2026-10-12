@@ -54,6 +54,7 @@
 }
 html { scroll-padding-top: env(safe-area-inset-top, 0px); }
 *, *::before, *::after { box-sizing: inherit; }
+[hidden] { display: none !important; }
 body {
   margin: 0;
   background: var(--foam);
@@ -105,7 +106,7 @@ h1 { margin: 0; font-size: 1.3125rem; font-weight: 750; font-stretch: 125%; lett
   border-radius: 2px; background: var(--buoy);
 }
 .mark-text { position: absolute; left: 53px; top: 0; transform: translateY(-50%); width: 68px; font-size: 0.75rem; line-height: 1.2; }
-.mark-name { display: block; font-weight: 650; }
+.mark-name { display: block; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mark-val { display: block; color: var(--muted); font-variant-numeric: tabular-nums; }
 .mark.hit .mark-name { color: var(--good); }
 
@@ -198,8 +199,6 @@ h2 { margin: 0 0 12px; font-size: 1.125rem; font-weight: 700; font-stretch: 125%
 /* Settings */
 .settings { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
 .settings summary { cursor: pointer; font-size: 1.0625rem; font-weight: 700; font-stretch: 125%; }
-.g-edit { display: grid; gap: 10px; margin: 14px 0 0; padding: 12px; border: 1.5px solid var(--line); border-radius: 12px; }
-.g-edit legend { padding: 0 6px; font-size: 0.875rem; font-weight: 600; color: var(--muted); }
 .settings-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
 .secondary {
   padding: 11px 16px; border-radius: 10px; font-weight: 650;
@@ -211,7 +210,7 @@ footer p { margin: 0; }
 
 .price-note { margin: -4px 0 0; font-size: 0.8125rem; color: var(--muted); }
 .price-note .linkish { font-size: inherit; margin-left: 4px; }
-.backup { margin-top: 28px; display: grid; gap: 10px; }
+.backup { margin-top: 16px; display: grid; gap: 10px; }
 .backup h3 { margin: 0; font-size: 1rem; font-weight: 700; }
 .backup .hint { margin: 0; }
 textarea {
@@ -219,6 +218,50 @@ textarea {
   background: var(--foam); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 12px; resize: vertical;
 }
 textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
+
+/* Goal editor */
+.sec-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 0 12px; }
+.sec-head h2 { margin: 0; }
+.secondary.small { padding: 8px 14px; font-size: 0.875rem; }
+.editor { display: grid; gap: 12px; }
+.editor:focus { outline: none; }
+.editor > .hint { margin: 0; }
+.edit-cards { display: grid; gap: 12px; }
+.g-edit {
+  display: grid; gap: 10px; padding: 14px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 14px;
+}
+.g-edit-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.g-edit-title { margin: 0; font-size: 0.875rem; font-weight: 700; color: var(--muted); }
+.g-tools { display: flex; align-items: center; gap: 6px; }
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 36px; padding: 0;
+  background: none; color: var(--ink); border: 1.5px solid var(--line); border-radius: 8px;
+}
+.g-remove {
+  height: 36px; padding: 0 12px; margin-left: 4px;
+  background: none; color: var(--late); border: 1.5px solid var(--line); border-radius: 8px;
+  font-size: 0.875rem; font-weight: 600;
+}
+.amount-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: end; }
+.seg { display: flex; height: 44px; border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg label { position: relative; display: flex; }
+.seg label + label { border-left: 1.5px solid var(--line); }
+.seg input {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0;
+  margin: 0; padding: 0; border: 0; opacity: 0; cursor: pointer;
+}
+.seg span {
+  display: flex; align-items: center; justify-content: center; min-width: 56px; padding: 0 12px;
+  font-weight: 700; color: var(--muted); background: var(--foam);
+}
+.seg input:checked + span { background: var(--btn-bg); color: var(--btn-ink); }
+.seg input:focus-visible + span { outline: 3px solid var(--buoy); outline-offset: -3px; }
+.g-preview { margin: -4px 0 0; font-size: 0.8125rem; color: var(--muted); }
+.add-goal { width: 100%; border-style: dashed; }
+.edit-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+.status.err { color: var(--late); font-weight: 600; }
+.settings > .status { margin-top: 8px; }
 
 @media (min-width: 600px) {
   .wrap { padding-top: 32px; }
@@ -252,7 +295,7 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
       <p class="rate" id="rateLine"></p>
       <p class="done-line" id="doneLine" hidden></p>
     </div>
-    <div class="gauge" aria-hidden="true">
+    <div class="gauge" id="gauge" aria-hidden="true">
       <div class="tube">
         <div class="water empty" id="water">
           <svg class="surface" viewBox="0 0 40 8" preserveAspectRatio="none"><path d="M0 8 V4 C5 1 10 1 15 4 S25 7 30 4 S38 1 40 3 V8 Z"/></svg>
@@ -279,8 +322,25 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   </div>
 
   <section aria-labelledby="goalsH">
-    <h2 id="goalsH">Goals</h2>
-    <div id="goalList"></div>
+    <div class="sec-head">
+      <h2 id="goalsH">Goals</h2>
+      <button type="button" class="secondary small" id="editGoalsBtn">Edit goals</button>
+    </div>
+    <div id="goalView">
+      <p class="empty" id="goalsEmpty" hidden>No goals yet. Add one with Edit goals.</p>
+      <div id="goalList"></div>
+      <p class="status" id="goalStatus" role="status" aria-live="polite"></p>
+    </div>
+    <div class="editor" id="goalEditor" tabindex="-1" hidden>
+      <p class="hint">The first goal on your list that isn’t covered yet shows at the top of the page. Each goal counts your whole stack, so to save for two things at once, set the second goal to the total of both.</p>
+      <div class="edit-cards" id="editCards"></div>
+      <button type="button" class="secondary add-goal" id="addGoalBtn">+ Add goal</button>
+      <div class="edit-actions">
+        <button type="button" class="primary" id="saveGoalsBtn">Save goals</button>
+        <button type="button" class="secondary" id="cancelGoalsBtn">Cancel</button>
+      </div>
+      <p class="status" id="editStatus" role="status" aria-live="polite"></p>
+    </div>
   </section>
 
   <section aria-labelledby="chartH">
@@ -296,15 +356,10 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   </section>
 
   <details class="settings">
-    <summary>Goals and backup</summary>
-    <div id="goalEditor"></div>
-    <div class="settings-actions">
-      <button type="button" class="secondary" id="saveGoals">Save goals</button>
-      <p class="status" id="goalStatus" role="status" aria-live="polite"></p>
-    </div>
+    <summary>Backup and history</summary>
     <div class="backup">
       <h3>Backup</h3>
-      <p class="hint">Your log is saved in this browser. Copy a backup now and then, or use one to move your log to another device.</p>
+      <p class="hint">Your log and goals are saved in this browser. Copy a backup now and then, or use one to move everything to another device.</p>
       <div><button type="button" class="secondary" id="copyBackup">Copy backup</button></div>
       <label class="field"><span>Paste a backup to restore it</span><textarea id="restoreText" rows="3" spellcheck="false" autocomplete="off"></textarea></label>
       <div class="settings-actions">
@@ -312,7 +367,8 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
         <p class="status" id="backupStatus" role="status" aria-live="polite"></p>
       </div>
     </div>
-    <button type="button" class="secondary danger" id="clearAll">Clear all data</button>
+    <button type="button" class="secondary danger" id="clearHist">Clear history</button>
+    <p class="status" id="clearStatus" role="status" aria-live="polite"></p>
   </details>
 
   <footer><p>Saved in this browser only. Anyone else who opens this link sees their own empty tracker.</p></footer>
@@ -324,11 +380,12 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
 
   // ---------- Defaults
   const FALLBACK_PRICE = 163.35; // A$ per SOL on 23 Sep 2026, only used if nothing else is available
-  const LS_KEY = 'jetski-run:v1';
+  const LS_KEY = 'jetski-run:v1'; // same key as before, so your log and goals carry over
   const LIVE_KEY = 'jetski-run:live-price';
+  const MAX_GOALS = 8;
   const DEFAULT_GOALS = [
-    { id: 'ski', name: 'Jet ski', aud: 20000, date: '2026-11-07' },
-    { id: 'liquid', name: '$50K liquid', aud: 50000, date: '2026-11-07' }
+    { id: 'ski', name: 'Jet ski', amount: 20000, unit: 'aud', date: '2026-11-07' },
+    { id: 'liquid', name: '$50K liquid', amount: 50000, unit: 'aud', date: '2026-11-07' }
   ];
   const ISO_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -343,19 +400,23 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   const el = {
     daysNum: $('daysNum'), daysTo: $('daysTo'),
     stackNum: $('stackNum'), worth: $('worth'), next: $('nextLine'), rate: $('rateLine'), doneLine: $('doneLine'),
-    water: $('water'), marks: $('marks'),
+    gauge: $('gauge'), water: $('water'), marks: $('marks'),
     inSol: $('inSol'), inPrice: $('inPrice'), inDate: $('inDate'), inBank: $('inBank'),
     priceNoteText: $('priceNoteText'), priceAction: $('priceAction'),
     bankWrap: $('bankWrap'), bankToggle: $('bankToggle'), logBtn: $('logBtn'), status: $('status'),
-    goalList: $('goalList'), chart: $('chart'), caption: $('chartCaption'),
+    editGoalsBtn: $('editGoalsBtn'), goalView: $('goalView'), goalsEmpty: $('goalsEmpty'),
+    goalList: $('goalList'), goalStatus: $('goalStatus'),
+    goalEditor: $('goalEditor'), editCards: $('editCards'), addGoalBtn: $('addGoalBtn'),
+    saveGoalsBtn: $('saveGoalsBtn'), cancelGoalsBtn: $('cancelGoalsBtn'), editStatus: $('editStatus'),
+    chart: $('chart'), caption: $('chartCaption'),
     histList: $('histList'), histEmpty: $('histEmpty'),
-    goalEditor: $('goalEditor'), saveGoals: $('saveGoals'), goalStatus: $('goalStatus'), clearAll: $('clearAll'),
-    copyBackup: $('copyBackup'), restoreText: $('restoreText'), restoreBtn: $('restoreBtn'), backupStatus: $('backupStatus')
+    copyBackup: $('copyBackup'), restoreText: $('restoreText'), restoreBtn: $('restoreBtn'), backupStatus: $('backupStatus'),
+    clearHist: $('clearHist'), clearStatus: $('clearStatus')
   };
 
   // ---------- Helpers
   const clone = (x) => JSON.parse(JSON.stringify(x));
-  const blank = () => ({ v: 1, goals: clone(DEFAULT_GOALS), entries: [] });
+  const blank = () => ({ v: 2, goals: clone(DEFAULT_GOALS), entries: [] });
   const pad = (n) => String(n).padStart(2, '0');
   const isoOf = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   const todayISO = () => isoOf(new Date());
@@ -371,35 +432,35 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   const aud0 = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
   const aud2 = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const fSol = (n) => nf2.format(n);
+  const fAud = (n) => (Math.round(n * 100) % 100 === 0 ? aud0 : aud2).format(n); // $20,000 or $3,499.50
   const num = (v) => { const s = String(v == null ? '' : v).replace(/[\s,$]/g, ''); return s === '' ? NaN : Number(s); };
   const priceStr = (p) => String(Math.round(p * 100) / 100);
   const stackOf = (e) => e.sol + e.bank / e.price;
   const plural = (n, one, many) => n + (n === 1 ? one : many);
+  const newId = () => 'g' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  const joinNames = (a) => (a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]);
 
-  // "Jet ski" -> "the jet ski", "Sea-Doo" -> "the Sea-Doo", "$50K liquid" -> "$50K liquid"
-  function phraseFor(name) {
-    const n = String(name).trim();
-    if (!/^[A-Za-z]/.test(n)) return n;
-    const first = n.split(/\s+/)[0];
-    const rest = first.slice(1);
-    const lower = rest.length && rest === rest.toLowerCase() ? n.charAt(0).toLowerCase() + n.slice(1) : n;
-    return 'the ' + lower;
+  // One goal from storage or a backup. Goals saved by the first version only had an A$ amount.
+  function normGoal(g, i, seen) {
+    if (!g || typeof g !== 'object') return null;
+    let unit = g.unit === 'sol' ? 'sol' : 'aud';
+    let amount = Number(g.amount);
+    if (!(amount > 0) && Number(g.aud) > 0) { amount = Number(g.aud); unit = 'aud'; }
+    if (!(amount > 0) || !isFinite(amount)) return null;
+    let id = String(g.id || '').replace(/[^\w-]/g, '').slice(0, 40);
+    if (!id || seen[id]) id = newId();
+    seen[id] = true;
+    const name = String(g.name == null ? '' : g.name).trim().slice(0, 40) || 'Goal ' + (i + 1);
+    const date = ISO_RE.test(g.date) ? g.date : addDays(todayISO(), 30);
+    return { id, name, amount, unit, date };
   }
 
   function normalize(raw) {
     const out = blank();
     if (!raw || typeof raw !== 'object') return out;
-    if (Array.isArray(raw.goals) && raw.goals.length) {
-      out.goals = DEFAULT_GOALS.map((d, i) => {
-        const g = raw.goals[i] || {};
-        const aud = Number(g.aud);
-        return {
-          id: String(g.id || d.id),
-          name: String(g.name || d.name).slice(0, 40),
-          aud: aud > 0 ? aud : d.aud,
-          date: ISO_RE.test(g.date) ? g.date : d.date
-        };
-      });
+    if (Array.isArray(raw.goals)) {
+      const seen = {};
+      out.goals = raw.goals.map((g, i) => normGoal(g, i, seen)).filter(Boolean).slice(0, MAX_GOALS);
     }
     if (Array.isArray(raw.entries)) {
       const byDate = {};
@@ -422,7 +483,7 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   let fetching = false;
   let priceTouched = false;   // you typed your own price
   let gaugeReady = false;
-  let editorDirty = false;
+  let editing = false;        // the goal editor is open
   let inputsDay = '';         // the day the log form was last filled for
 
   function readJSON(key) {
@@ -436,12 +497,12 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   }
 
   function reduce(s, op) {
-    if (op.t === 'clear') return blank();
     if (op.t === 'replace') return normalize(op.state);
     const n = clone(s);
     if (op.t === 'log') n.entries = n.entries.filter((e) => e.d !== op.e.d).concat([op.e]);
     if (op.t === 'del') n.entries = n.entries.filter((e) => e.d !== op.d);
     if (op.t === 'goals') n.goals = op.goals;
+    if (op.t === 'clearHistory') n.entries = [];
     return normalize(n);
   }
   function commit(op) {
@@ -536,14 +597,21 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     return { sol, price, bank, stack: sol + bank / price, value: sol * price + bank };
   }
 
+  // A SOL target stays fixed. An A$ target turns into SOL at the current price.
   function goalStats(g, snap, today) {
-    const targetSol = g.aud / snap.price;
-    const done = snap.value >= g.aud;
-    const toGo = done ? 0 : Math.max(0, targetSol - snap.stack);
-    const pct = Math.max(0, Math.min(100, (snap.value / g.aud) * 100));
+    const targetSol = g.unit === 'sol' ? g.amount : g.amount / snap.price;
+    const targetAud = g.unit === 'sol' ? g.amount * snap.price : g.amount;
+    const done = snap.stack >= targetSol - 1e-9;
+    const toGo = done ? 0 : targetSol - snap.stack;
+    const pct = done ? 100 : Math.max(0, Math.min(100, (snap.stack / targetSol) * 100));
     const daysLeft = daysBetween(today, g.date);
     const perDay = !done && daysLeft > 0 ? toGo / daysLeft : null;
-    return { targetSol, done, toGo, pct, daysLeft, perDay, spare: Math.max(0, snap.stack - targetSol) };
+    return { targetSol, targetAud, done, toGo, pct, daysLeft, perDay, spare: Math.max(0, snap.stack - targetSol) };
+  }
+
+  // Your goals in your order. The first one that isn't covered yet is the one shown up top.
+  function goalRows(snap, today) {
+    return state.goals.map((g) => ({ g, s: goalStats(g, snap, today) }));
   }
 
   // Average SOL stacked per day across the last week of logs
@@ -560,63 +628,76 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   }
 
   // ---------- Rendering
-  function renderHero(snap, today, stats) {
+  function renderHero(snap, today, rows) {
     el.stackNum.textContent = fSol(snap.stack);
     el.worth.textContent = 'Worth ' + aud0.format(snap.value) + ' at ' + aud2.format(snap.price) + ' a SOL';
 
-    const next = stats.find((x) => !x.s.done);
-    if (!next) {
+    const next = rows.find((r) => !r.s.done) || null;
+    if (!rows.length) {
+      el.next.textContent = 'No goals yet.';
+      el.rate.textContent = 'Add one with Edit goals below.';
+    } else if (!next) {
       el.next.textContent = 'Every goal is covered.';
-      el.rate.textContent = 'Set a bigger one in Goals and backup below.';
+      el.rate.textContent = 'Set a bigger one with Edit goals below.';
     } else {
-      el.next.textContent = fSol(next.s.toGo) + ' SOL to go for ' + phraseFor(next.g.name);
+      el.next.textContent = fSol(next.s.toGo) + ' SOL to go for ' + next.g.name;
       if (next.s.daysLeft > 0) {
         el.rate.textContent = 'Stack ' + fSol(next.s.perDay) + ' SOL a day to have it by ' + fmtDate(next.g.date) + '.';
       } else if (next.s.daysLeft === 0) {
         el.rate.textContent = 'Target date is today.';
       } else {
-        el.rate.textContent = 'Target date has passed. Pick a new one in Goals and backup.';
+        el.rate.textContent = 'Target date has passed. Pick a new one with Edit goals.';
       }
     }
-    const covered = stats.filter((x) => x.s.done).map((x) => x.g.name);
-    el.doneLine.textContent = covered.length ? covered.join(' and ') + ' covered.' : '';
+    const covered = rows.filter((r) => r.s.done).map((r) => r.g.name);
+    el.doneLine.textContent = !covered.length ? '' :
+      covered.length > 3 ? covered.length + ' goals covered.' : joinNames(covered) + ' covered.';
     el.doneLine.hidden = covered.length === 0;
 
-    const g0 = state.goals[0];
-    const d0 = daysBetween(today, g0.date);
-    if (d0 > 0) {
-      el.daysNum.textContent = String(d0);
-      el.daysTo.textContent = (d0 === 1 ? ' day' : ' days') + ' to ' + fmtDate(g0.date);
+    if (next && next.s.daysLeft > 0) {
+      el.daysNum.textContent = String(next.s.daysLeft);
+      el.daysTo.textContent = (next.s.daysLeft === 1 ? ' day' : ' days') + ' to ' + fmtDate(next.g.date);
     } else {
       el.daysNum.textContent = '';
-      el.daysTo.textContent = d0 === 0 ? 'Target day is today' : 'Target date passed';
+      el.daysTo.textContent = !next ? '' : next.s.daysLeft === 0 ? 'Target day is today' : 'Target date passed';
     }
   }
 
-  function renderGauge(snap, stats) {
-    const targets = stats.map((x) => x.s.targetSol);
-    const top = Math.max.apply(null, targets.concat([snap.stack])) * 1.08 || 1;
+  function renderGauge(snap, rows) {
+    el.gauge.hidden = rows.length === 0;
+    if (!rows.length) return;
+    const top = Math.max.apply(null, rows.map((r) => r.s.targetSol).concat([snap.stack])) * 1.08 || 1;
     if (gaugeReady) {
       const h = Math.min(100, (snap.stack / top) * 100);
       el.water.style.height = h + '%';
       el.water.classList.toggle('empty', h <= 0);
     }
+    // Each tick sits at its exact level. The labels spread apart so they never overlap.
+    const H = el.marks.clientHeight || 246;
+    const LH = H > 280 ? 33 : 30;
+    const marks = rows.map((r) => ({ r, y: (r.s.targetSol / top) * H })).sort((a, b) => a.y - b.y);
+    marks.forEach((m, i) => { m.c = Math.max(m.y, i ? marks[i - 1].c + LH : LH / 2); });
+    for (let i = marks.length - 1; i >= 0; i--) {
+      marks[i].c = Math.min(marks[i].c, i < marks.length - 1 ? marks[i + 1].c - LH : H - LH / 2);
+    }
     el.marks.textContent = '';
-    stats.forEach((x, i) => {
-      const m = document.createElement('div');
-      m.className = 'mark' + (x.s.done ? ' hit' : '');
-      m.style.bottom = ((targets[i] / top) * 100) + '%';
+    marks.forEach((m) => {
+      const d = document.createElement('div');
+      d.className = 'mark' + (m.r.s.done ? ' hit' : '');
+      d.style.bottom = (m.y / H) * 100 + '%';
       const t = document.createElement('div'); t.className = 'mark-text';
-      const n = document.createElement('span'); n.className = 'mark-name'; n.textContent = x.g.name;
-      const v = document.createElement('span'); v.className = 'mark-val'; v.textContent = fSol(targets[i]);
-      t.append(n, v); m.append(t); el.marks.append(m);
+      t.style.top = (m.y - m.c) + 'px';
+      const n = document.createElement('span'); n.className = 'mark-name'; n.textContent = m.r.g.name;
+      const v = document.createElement('span'); v.className = 'mark-val'; v.textContent = fSol(m.r.s.targetSol);
+      t.append(n, v); d.append(t); el.marks.append(d);
     });
   }
 
-  function renderGoals(snap, today, stats) {
+  function renderGoals(snap, today, rows) {
     const p = pace();
     el.goalList.textContent = '';
-    stats.forEach(({ g, s }) => {
+    el.goalsEmpty.hidden = rows.length > 0;
+    rows.forEach(({ g, s }) => {
       const art = document.createElement('article');
       art.className = 'goal' + (s.done ? ' done' : '');
 
@@ -634,7 +715,9 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
       bar.append(fill);
 
       const tgt = document.createElement('p'); tgt.className = 'target';
-      tgt.textContent = aud0.format(g.aud) + ', which is ' + fSol(s.targetSol) + ' SOL at ' + aud2.format(snap.price);
+      tgt.textContent = g.unit === 'sol'
+        ? fSol(g.amount) + ' SOL, which is ' + aud0.format(s.targetAud) + ' at ' + aud2.format(snap.price)
+        : fAud(g.amount) + ', which is ' + fSol(s.targetSol) + ' SOL at ' + aud2.format(snap.price);
 
       const dl = document.createElement('dl'); dl.className = 'nums';
       const daysTxt = String(Math.max(0, s.daysLeft));
@@ -681,7 +764,7 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     return n;
   }
 
-  function renderChart(snap, today, stats) {
+  function renderChart(snap, today, rows) {
     const E = state.entries;
     el.chart.textContent = '';
     el.caption.hidden = true;
@@ -694,28 +777,30 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     const W = Math.max(280, Math.round(el.chart.clientWidth || 640));
     const H = W < 480 ? 210 : 250;
     const L = 6, R = 6, T = 24, B = 26;
-    // Zoom the chart on the next goal you haven't covered yet
-    let fi = stats.findIndex((x) => !x.s.done);
-    if (fi < 0) fi = stats.length - 1;
-    const focus = stats[fi];
-    const fg = focus.g;
+    // Zoom the chart on your next goal (or your biggest one if they're all covered)
+    const focus = rows.find((r) => !r.s.done) ||
+      rows.slice().sort((a, b) => b.s.targetSol - a.s.targetSol)[0] || null;
     const start = E[0].d;
-    let end = [E[E.length - 1].d, today, fg.date].sort().pop();
+    let end = [E[E.length - 1].d, today].concat(focus ? [focus.g.date] : []).sort().pop();
     let span = daysBetween(start, end);
     if (span < 1) { end = addDays(start, 1); span = 1; }
-    const targets = stats.map((x) => x.s.targetSol);
-    const top = Math.max(focus.s.targetSol, Math.max.apply(null, E.map(stackOf)), snap.stack) * 1.12 || 1;
+    const top = Math.max(focus ? focus.s.targetSol : 0, Math.max.apply(null, E.map(stackOf)), snap.stack) * 1.12 || 1;
     const x = (iso) => L + (daysBetween(start, iso) / span) * (W - L - R);
     const y = (v) => T + (1 - v / top) * (H - T - B);
 
-    const s = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'Your stack over time, with a line for your next goal' });
+    const s = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img', 'aria-label': 'Your stack over time, with a line for each goal in range' });
     s.append(svgEl('line', { x1: L, x2: W - R, y1: y(0), y2: y(0), class: 'c-base' }));
 
-    stats.forEach((st, i) => {
-      if (targets[i] > top) return;
-      const yy = y(targets[i]);
+    // Goal lines. The next goal is always labelled; others get a label when there's room.
+    const placed = [];
+    (focus ? [focus].concat(rows.filter((r) => r !== focus)) : rows).forEach((r) => {
+      if (r.s.targetSol > top) return;
+      const yy = y(r.s.targetSol);
       s.append(svgEl('line', { x1: L, x2: W - R, y1: yy, y2: yy, class: 'c-target' }));
-      s.append(svgEl('text', { x: W - R, y: yy - 7, 'text-anchor': 'end', class: 'c-label' }, st.g.name + '  ' + fSol(targets[i]) + ' SOL'));
+      const ly = Math.max(12, yy - 7);
+      if (placed.some((p) => Math.abs(p - ly) < 15)) return;
+      placed.push(ly);
+      s.append(svgEl('text', { x: W - R, y: ly, 'text-anchor': 'end', class: 'c-label' }, r.g.name + '  ' + fSol(r.s.targetSol) + ' SOL'));
     });
 
     const pts = E.map((e) => [x(e.d), y(stackOf(e))]);
@@ -728,9 +813,9 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     }
 
     const last = E[E.length - 1];
-    if (!focus.s.done && fg.date > last.d) {
-      s.append(svgEl('line', { x1: x(last.d), y1: y(stackOf(last)), x2: x(fg.date), y2: y(focus.s.targetSol), class: 'c-need' }));
-      el.caption.textContent = 'Dotted line: the pace that gets ' + phraseFor(fg.name) + ' by ' + fmtDate(fg.date) + '.';
+    if (focus && !focus.s.done && focus.g.date > last.d) {
+      s.append(svgEl('line', { x1: x(last.d), y1: y(stackOf(last)), x2: x(focus.g.date), y2: y(focus.s.targetSol), class: 'c-need' }));
+      el.caption.textContent = 'Dotted line: the pace that gets you to ' + focus.g.name + ' by ' + fmtDate(focus.g.date) + '.';
       el.caption.hidden = false;
     }
 
@@ -797,33 +882,6 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     armTimer = setTimeout(() => { armedDate = null; renderHistory(); }, 3500);
   }
 
-  function editorField(label, type, value, key, extra) {
-    const lab = document.createElement('label'); lab.className = 'field';
-    const sp = document.createElement('span'); sp.textContent = label;
-    const inp = document.createElement('input');
-    inp.type = type; inp.value = value; inp.dataset.k = key;
-    Object.keys(extra).forEach((k) => inp.setAttribute(k, extra[k]));
-    inp.addEventListener('input', () => { editorDirty = true; });
-    lab.append(sp, inp);
-    return lab;
-  }
-
-  function renderEditor() {
-    if (editorDirty) return;
-    el.goalEditor.textContent = '';
-    state.goals.forEach((g, i) => {
-      const fs = document.createElement('fieldset'); fs.className = 'g-edit'; fs.dataset.i = String(i);
-      const lg = document.createElement('legend'); lg.textContent = 'Goal ' + (i + 1);
-      fs.append(
-        lg,
-        editorField('Name', 'text', g.name, 'name', { maxlength: '40', autocomplete: 'off' }),
-        editorField('Amount in A$', 'text', String(g.aud), 'aud', { inputmode: 'decimal', autocomplete: 'off' }),
-        editorField('Target date', 'date', g.date, 'date', {})
-      );
-      el.goalEditor.append(fs);
-    });
-  }
-
   function updateLogBtn() {
     const t = todayISO();
     const d = ISO_RE.test(el.inDate.value) ? el.inDate.value : t;
@@ -834,20 +892,246 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
   function renderLive() {
     const today = todayISO();
     const snap = inputsSnapshot();
-    const stats = state.goals.map((g) => ({ g, s: goalStats(g, snap, today) }));
-    renderHero(snap, today, stats);
-    renderGauge(snap, stats);
-    renderGoals(snap, today, stats);
-    renderChart(snap, today, stats);
+    const rows = goalRows(snap, today);
+    renderHero(snap, today, rows);
+    renderGauge(snap, rows);
+    renderGoals(snap, today, rows);
+    renderChart(snap, today, rows);
     updateLogBtn();
+    if (editing) updatePreviews();
   }
 
   function renderAll() {
     renderLive();
     renderHistory();
-    renderEditor();
   }
 
+  // ---------- Goal editor
+  // Changes here are a draft until you tap Save goals. Cancel throws them away.
+  const ARROW_UP = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const ARROW_DOWN = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function setEditing(on) {
+    editing = on;
+    el.goalEditor.hidden = !on;
+    el.goalView.hidden = on;
+    el.editGoalsBtn.hidden = on;
+    if (!on) el.editCards.textContent = '';
+  }
+
+  function setEditStatus(msg, isErr) {
+    el.editStatus.textContent = msg;
+    el.editStatus.classList.toggle('err', !!isErr);
+  }
+
+  function makeInput(type, value, key, attrs) {
+    const inp = document.createElement('input');
+    inp.type = type;
+    inp.value = value;
+    inp.dataset.k = key;
+    Object.keys(attrs).forEach((k) => inp.setAttribute(k, attrs[k]));
+    return inp;
+  }
+  function makeField(label, input) {
+    const lab = document.createElement('label'); lab.className = 'field';
+    const sp = document.createElement('span'); sp.textContent = label;
+    lab.append(sp, input);
+    return lab;
+  }
+  function makeBtn(cls, onClick) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = cls;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  const cardUnit = (card) => {
+    const r = card.querySelector('input[type="radio"]:checked');
+    return r && r.value === 'aud' ? 'aud' : 'sol';
+  };
+
+  function goalCard(g) {
+    const card = document.createElement('div');
+    card.className = 'g-edit';
+    card.dataset.id = g.id;
+    card.setAttribute('role', 'group');
+
+    const head = document.createElement('div'); head.className = 'g-edit-head';
+    const title = document.createElement('p'); title.className = 'g-edit-title'; title.id = 'gt-' + g.id;
+    card.setAttribute('aria-labelledby', title.id);
+    const tools = document.createElement('div'); tools.className = 'g-tools';
+    const up = makeBtn('icon-btn g-up', () => moveCard(card, -1)); up.innerHTML = ARROW_UP;
+    const down = makeBtn('icon-btn g-down', () => moveCard(card, 1)); down.innerHTML = ARROW_DOWN;
+    const rm = makeBtn('g-remove', () => removeCard(card)); rm.textContent = 'Remove';
+    tools.append(up, down, rm);
+    head.append(title, tools);
+
+    const name = makeInput('text', g.name, 'name', { maxlength: '40', autocomplete: 'off', placeholder: 'e.g. New phone', enterkeyhint: 'next' });
+
+    const amount = makeInput('text', g.amount === '' ? '' : String(g.amount), 'amount', { inputmode: 'decimal', autocomplete: 'off', enterkeyhint: 'done' });
+    const preview = document.createElement('p'); preview.className = 'g-preview'; preview.id = 'gp-' + g.id;
+    amount.setAttribute('aria-describedby', preview.id);
+    amount.addEventListener('input', () => { card._typed = true; card._unitMemo = null; updatePreview(card); });
+
+    const seg = document.createElement('div'); seg.className = 'seg';
+    seg.setAttribute('role', 'radiogroup');
+    seg.setAttribute('aria-label', 'Target unit');
+    [['sol', 'SOL'], ['aud', 'A$']].forEach(([v, text]) => {
+      const lab = document.createElement('label');
+      const r = document.createElement('input');
+      r.type = 'radio'; r.name = 'unit-' + g.id; r.value = v; r.checked = g.unit === v;
+      r.addEventListener('change', () => onUnitChange(card, v));
+      const sp = document.createElement('span'); sp.textContent = text;
+      lab.append(r, sp); seg.append(lab);
+    });
+    const row = document.createElement('div'); row.className = 'amount-row';
+    row.append(makeField('Target', amount), seg);
+
+    const date = makeInput('date', g.date, 'date', {});
+    card.append(head, makeField('Name', name), row, preview, makeField('Target date', date));
+    return card;
+  }
+
+  // Switching SOL ⇄ A$ on a saved goal converts its number at today's price, so the target
+  // means the same thing (switch straight back and your exact number returns).
+  // A number you've just typed is kept as is: you typed it for the unit you're picking.
+  function onUnitChange(card, unit) {
+    const inp = card.querySelector('[data-k="amount"]');
+    const memo = card._unitMemo;
+    if (memo && memo.unit === unit && memo.after === inp.value) {
+      inp.value = memo.before;
+      card._unitMemo = null;
+    } else if (!card._typed) {
+      const a = num(inp.value);
+      const price = inputsSnapshot().price;
+      card._unitMemo = null;
+      if (a > 0 && price > 0) {
+        const before = inp.value;
+        inp.value = unit === 'sol' ? String(Math.round((a / price) * 100) / 100) : String(Math.round(a * price));
+        card._unitMemo = { unit: unit === 'sol' ? 'aud' : 'sol', before, after: inp.value };
+      }
+    }
+    updatePreview(card);
+  }
+
+  function updatePreview(card) {
+    const a = num(card.querySelector('[data-k="amount"]').value);
+    const unit = cardUnit(card);
+    const price = inputsSnapshot().price;
+    const pv = card.querySelector('.g-preview');
+    if (!(a > 0)) {
+      pv.textContent = unit === 'sol' ? 'Type how many SOL you need.' : 'Type the amount in A$.';
+    } else if (unit === 'sol') {
+      pv.textContent = '≈ ' + aud0.format(a * price) + ' at ' + aud2.format(price) + ' a SOL';
+    } else {
+      pv.textContent = '≈ ' + fSol(a / price) + ' SOL at ' + aud2.format(price) + ' a SOL';
+    }
+  }
+  function updatePreviews() {
+    Array.from(el.editCards.children).forEach(updatePreview);
+  }
+
+  function renumberCards() {
+    const cards = Array.from(el.editCards.children);
+    cards.forEach((c, i) => {
+      const n = i + 1;
+      c.querySelector('.g-edit-title').textContent = 'Goal ' + n;
+      const up = c.querySelector('.g-up');
+      const down = c.querySelector('.g-down');
+      up.disabled = i === 0;
+      down.disabled = i === cards.length - 1;
+      up.setAttribute('aria-label', 'Move goal ' + n + ' up');
+      down.setAttribute('aria-label', 'Move goal ' + n + ' down');
+      c.querySelector('.g-remove').setAttribute('aria-label', 'Remove goal ' + n);
+    });
+    const full = cards.length >= MAX_GOALS;
+    el.addGoalBtn.disabled = full;
+    el.addGoalBtn.textContent = full ? MAX_GOALS + ' goals is the max' : '+ Add goal';
+  }
+
+  function moveCard(card, dir) {
+    const sib = dir < 0 ? card.previousElementSibling : card.nextElementSibling;
+    if (!sib) return;
+    if (dir < 0) el.editCards.insertBefore(card, sib);
+    else el.editCards.insertBefore(sib, card);
+    renumberCards();
+    const same = card.querySelector(dir < 0 ? '.g-up' : '.g-down');
+    (same.disabled ? card.querySelector(dir < 0 ? '.g-down' : '.g-up') : same).focus();
+    setEditStatus('');
+  }
+
+  function removeCard(card) {
+    const name = card.querySelector('[data-k="name"]').value.trim();
+    card.remove();
+    renumberCards();
+    setEditStatus('Removed ' + (name || 'that goal') + '. Tap Save goals to keep the change.');
+    el.addGoalBtn.focus();
+  }
+
+  function blankGoal() {
+    const t = todayISO();
+    const dates = Array.from(el.editCards.querySelectorAll('[data-k="date"]'))
+      .map((i) => i.value).filter((v) => ISO_RE.test(v)).sort();
+    const latest = dates.length ? dates[dates.length - 1] : '';
+    return { id: newId(), name: '', amount: '', unit: 'sol', date: latest > t ? latest : addDays(t, 30) };
+  }
+
+  function openEditor() {
+    el.editCards.textContent = '';
+    (state.goals.length ? state.goals : [blankGoal()]).forEach((g) => el.editCards.append(goalCard(g)));
+    renumberCards();
+    setEditStatus('');
+    el.goalStatus.textContent = '';
+    setEditing(true);
+    updatePreviews();
+    el.goalEditor.focus();
+  }
+
+  el.editGoalsBtn.addEventListener('click', openEditor);
+
+  el.addGoalBtn.addEventListener('click', () => {
+    if (el.editCards.children.length >= MAX_GOALS) return;
+    const card = goalCard(blankGoal());
+    el.editCards.append(card);
+    renumberCards();
+    updatePreview(card);
+    setEditStatus('');
+    card.querySelector('[data-k="name"]').focus();
+  });
+
+  el.saveGoalsBtn.addEventListener('click', () => {
+    const goals = [];
+    let problem = null;
+    Array.from(el.editCards.children).some((card, i) => {
+      const nameEl = card.querySelector('[data-k="name"]');
+      const amtEl = card.querySelector('[data-k="amount"]');
+      const dateEl = card.querySelector('[data-k="date"]');
+      const name = nameEl.value.trim();
+      const amount = num(amtEl.value);
+      if (!name) problem = { msg: 'Give goal ' + (i + 1) + ' a name.', field: nameEl };
+      else if (!(amount > 0) || !isFinite(amount)) problem = { msg: 'Goal ' + (i + 1) + ' needs a target above 0.', field: amtEl };
+      else if (!ISO_RE.test(dateEl.value)) problem = { msg: 'Goal ' + (i + 1) + ' needs a target date.', field: dateEl };
+      else goals.push({ id: card.dataset.id, name: name.slice(0, 40), amount, unit: cardUnit(card), date: dateEl.value });
+      return !!problem;
+    });
+    if (problem) {
+      setEditStatus(problem.msg, true);
+      problem.field.focus();
+      return;
+    }
+    commit({ t: 'goals', goals });
+    setEditing(false);
+    renderAll();
+    el.goalStatus.textContent = 'Goals saved.';
+    el.editGoalsBtn.focus();
+  });
+
+  el.cancelGoalsBtn.addEventListener('click', () => {
+    setEditing(false);
+    el.editGoalsBtn.focus();
+  });
+
+  // ---------- Log form
   function fillInputs() {
     const L = state.entries[state.entries.length - 1] || null;
     el.inSol.value = L ? String(L.sol) : '';
@@ -869,7 +1153,6 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     if (L) say('Last logged ' + (L.d === todayISO() ? 'today' : fmtDate(L.d)) + '.');
   }
 
-  // ---------- Actions
   function doLog() {
     const s = num(el.inSol.value), p = num(el.inPrice.value), b = num(el.inBank.value);
     const t = todayISO();
@@ -915,28 +1198,7 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     el.inBank.focus();
   });
 
-  el.saveGoals.addEventListener('click', () => {
-    const goals = clone(state.goals);
-    let problem = '';
-    el.goalEditor.querySelectorAll('fieldset').forEach((fs) => {
-      if (problem) return;
-      const i = Number(fs.dataset.i);
-      const name = fs.querySelector('[data-k="name"]').value.trim();
-      const aud = num(fs.querySelector('[data-k="aud"]').value);
-      const date = fs.querySelector('[data-k="date"]').value;
-      if (!name) problem = 'Give goal ' + (i + 1) + ' a name.';
-      else if (!(aud > 0)) problem = 'Goal ' + (i + 1) + ' needs an amount above $0.';
-      else if (!ISO_RE.test(date)) problem = 'Goal ' + (i + 1) + ' needs a target date.';
-      else goals[i] = { id: goals[i].id, name, aud, date };
-    });
-    if (problem) { el.goalStatus.textContent = problem; return; }
-    commit({ t: 'goals', goals });
-    editorDirty = false;
-    renderAll();
-    el.goalStatus.textContent = 'Goals saved.';
-  });
-
-  // Backup: copy your log as text, paste it back to restore
+  // ---------- Backup: copy your log and goals as text, paste it back to restore
   el.copyBackup.addEventListener('click', async () => {
     const text = JSON.stringify(state);
     try {
@@ -969,34 +1231,35 @@ textarea:focus-visible { outline: 3px solid var(--water); outline-offset: 1px; }
     restoreArmed = false;
     el.restoreBtn.textContent = 'Restore backup';
     commit({ t: 'replace', state: parsed });
+    if (editing) setEditing(false);
     el.restoreText.value = '';
-    editorDirty = false;
     fillInputs();
     renderAll();
     updatePriceNote();
     showLastLogged();
-    el.backupStatus.textContent = 'Restored ' + plural(state.entries.length, ' day.', ' days.');
+    el.backupStatus.textContent = 'Restored ' + plural(state.entries.length, ' day', ' days') +
+      ' and ' + plural(state.goals.length, ' goal.', ' goals.');
   });
 
+  // ---------- Clear history (your goals stay)
   let clearArmed = false;
   let clearTimer = null;
-  el.clearAll.addEventListener('click', () => {
+  el.clearHist.addEventListener('click', () => {
     clearTimeout(clearTimer);
     if (!clearArmed) {
       clearArmed = true;
-      el.clearAll.textContent = 'Tap again to clear everything';
-      clearTimer = setTimeout(() => { clearArmed = false; el.clearAll.textContent = 'Clear all data'; }, 4000);
+      el.clearHist.textContent = 'Tap again to clear your whole history';
+      clearTimer = setTimeout(() => { clearArmed = false; el.clearHist.textContent = 'Clear history'; }, 4000);
       return;
     }
     clearArmed = false;
-    el.clearAll.textContent = 'Clear all data';
-    commit({ t: 'clear' });
-    editorDirty = false;
+    el.clearHist.textContent = 'Clear history';
+    commit({ t: 'clearHistory' });
     fillInputs();
     renderAll();
     updatePriceNote();
     say('');
-    el.goalStatus.textContent = 'Cleared.';
+    el.clearStatus.textContent = 'History cleared. Your goals are still here.';
   });
 
   let resizeTimer = null;
